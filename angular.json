@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "projects": {
+    "snap-doctor": {
+      "projectType": "application",
+      "root": "apps/snap-doctor",
+      "sourceRoot": "apps/snap-doctor/src",
+      "prefix": "matab-online",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/snap-doctor",
+            "index": "apps/snap-doctor/src/index.html",
+            "main": "apps/snap-doctor/src/main.ts",
+            "polyfills": "apps/snap-doctor/src/polyfills.ts",
+            "tsConfig": "apps/snap-doctor/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/snap-doctor/src/favicon.ico",
+              "apps/snap-doctor/src/assets"
+            ],
+            "styles": ["apps/snap-doctor/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/snap-doctor/src/environments/environment.ts",
+                  "with": "apps/snap-doctor/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "snap-doctor:build:production"
+            },
+            "development": {
+              "browserTarget": "snap-doctor:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "snap-doctor:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/snap-doctor/src/**/*.ts",
+              "apps/snap-doctor/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/snap-doctor"],
+          "options": {
+            "jestConfig": "apps/snap-doctor/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "snap-doctor-e2e": {
+      "root": "apps/snap-doctor-e2e",
+      "sourceRoot": "apps/snap-doctor-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/snap-doctor-e2e/cypress.json",
+            "devServerTarget": "snap-doctor:serve:development",
+            "tsConfig": "apps/snap-doctor-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "snap-doctor:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/snap-doctor-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "npm"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "defaultProject": "snap-doctor"
+}
